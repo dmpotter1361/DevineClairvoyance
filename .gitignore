@@ -1,0 +1,17 @@
+# Build output
+bin/
+obj/
+publish/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+
+# Installer output
+*.msi
+*.wixpdb
+
+# OS / misc
+Thumbs.db
+desktop.ini
