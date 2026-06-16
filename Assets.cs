@@ -10,13 +10,20 @@ public static class Assets
     private static readonly string Dir = Path.Combine(AppContext.BaseDirectory, "Assets");
     private static readonly Dictionary<string, Image> _cache = new(StringComparer.OrdinalIgnoreCase);
 
-    /// <summary>Load "{name}.png" from Assets (e.g. a card name or art asset).</summary>
+    // Photographic cards ship as .jpg; art with transparency ships as .png.
+    private static readonly string[] Extensions = { ".jpg", ".png", ".jpeg" };
+
+    /// <summary>Load an image from Assets by name, regardless of file extension.</summary>
     public static Image Image(string name)
     {
         if (_cache.TryGetValue(name, out var img))
             return img;
 
-        var path = Path.Combine(Dir, name + ".png");
+        var path = Extensions
+            .Select(ext => Path.Combine(Dir, name + ext))
+            .FirstOrDefault(File.Exists)
+            ?? Path.Combine(Dir, name + ".png"); // fall back so the error names a real path
+
         // Read into memory so the file isn't locked and the bitmap survives caching.
         using var fs = File.OpenRead(path);
         var loaded = System.Drawing.Image.FromStream(fs);
