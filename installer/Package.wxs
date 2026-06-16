@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Devine Clairvoyance installer (WiX v4+ syntax).
+  - MajorUpgrade auto-removes any older version on install (no manual uninstall first).
+  - UpgradeCode must stay constant forever; bump Version each release to trigger upgrades.
+  - Version comes from build.ps1 (-d Version=...); the default below is just a fallback.
+  - Files harvests the entire self-contained publish folder.
+-->
+<?ifndef Version ?><?define Version = "1.0.0" ?><?endif?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="Devine Clairvoyance"
+           Manufacturer="Michael Potter"
+           Version="$(var.Version)"
+           UpgradeCode="0D76ADB6-CF58-462F-A252-328326F38988"
+           Scope="perMachine"
+           Compressed="yes">
+
+    <!-- Replace any older install automatically; block downgrades with a friendly message. -->
+    <MajorUpgrade DowngradeErrorMessage="A newer version of Devine Clairvoyance is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Icon Id="AppIcon" SourceFile="$(var.PublishDir)\Assets\Icon1.ico" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+    <Property Id="ARPNOREPAIR" Value="1" />
+    <Property Id="ARPHELPLINK" Value="https://github.com/dmpotter1361/DevineClairvoyance" />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="Devine Clairvoyance" />
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder" />
+
+    <Feature Id="Main" Title="Devine Clairvoyance" Level="1">
+      <ComponentGroupRef Id="AppFiles" />
+      <ComponentRef Id="AppShortcut" />
+    </Feature>
+
+    <!-- All published files (self-contained app + .NET runtime). -->
+    <ComponentGroup Id="AppFiles" Directory="INSTALLFOLDER">
+      <Files Include="$(var.PublishDir)\**" />
+    </ComponentGroup>
+
+    <!-- Start-Menu shortcut. -->
+    <Component Id="AppShortcut" Directory="ProgramMenuFolder" Guid="*">
+      <Shortcut Id="StartMenuShortcut"
+                Name="Devine Clairvoyance"
+                Description="Explore the Tarot: card meanings, art, and a three-card spread"
+                Target="[INSTALLFOLDER]DevineClairvoyance.exe"
+                WorkingDirectory="INSTALLFOLDER"
+                Icon="AppIcon" />
+      <RegistryValue Root="HKCU" Key="Software\DevineClairvoyance" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+
+  </Package>
+</Wix>
