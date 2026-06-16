@@ -1,5 +1,7 @@
 # Devine Clairvoyance
 
+[![Latest release](https://img.shields.io/github/v/release/dmpotter1361/DevineClairvoyance?label=download&sort=semver)](https://github.com/dmpotter1361/DevineClairvoyance/releases/latest)
+
 A small Windows desktop app for exploring the Tarot. Browse all 78 cards by suit
 to read their meanings, view the card art, and try a simple three-card spread —
 *Current Situation, Challenge, Advice* — with optional text-to-speech that reads
@@ -7,6 +9,14 @@ each card aloud.
 
 > Personal project, for entertainment. Tarot readings are for reflection and fun,
 > not advice.
+
+### ⬇ Download
+
+**[Get the latest version](https://github.com/dmpotter1361/DevineClairvoyance/releases/latest)** —
+download the `DevineClairvoyance-x.y.z-x64.msi` from the latest release and run it.
+No setup or accounts; just install and open. (It's a personal build and not
+code-signed yet, so Windows SmartScreen may warn — choose **More info → Run anyway**.)
+The .NET runtime is bundled, so nothing else is needed on Windows 10/11 (x64).
 
 ## Features
 
